@@ -293,6 +293,7 @@ renderizar), `Header.test.jsx` (que `NavLink` marca la página activa con
 llamar a la API). Son la referencia a copiar para lo que agregues vos.
 
 Dos detalles que vas a necesitar tarde o temprano:
+
 - Un componente con `<Seo />` necesita `HelmetProvider` envolviéndolo en
   el test, si no `react-helmet-async` tira un error de contexto faltante.
 - Un componente con `Link`/`NavLink` necesita un router envolviéndolo —

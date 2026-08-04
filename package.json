@@ -2,13 +2,35 @@
   "name": "plantilla-react",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
+  "author": "MadridM7",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MadridM7/plantilla_react.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "node --env-file=.env server.js",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml,css}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "axios": "^1.7.7",
@@ -18,12 +40,22 @@
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@vitejs/plugin-react": "^4.3.1",
     "compression": "^1.7.4",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "express": "^4.19.2",
+    "globals": "^17.9.0",
+    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.9.6",
     "vite": "^5.4.0",
     "vitest": "^4.1.10"
   }

@@ -108,6 +108,27 @@ renderiza sin depender de la API) — son la referencia a copiar para
 componentes nuevos. Envolvé en `HelmetProvider` cualquier componente que
 use `<Seo />`, y en `MemoryRouter` cualquiera que use `Link`/`NavLink`.
 
+## Calidad de código
+
+```bash
+npm run lint          # ESLint (eslint.config.js: react, react-hooks, jsx-a11y)
+npm run format        # Prettier --write
+npm run format:check  # Prettier --check (lo que corre CI)
+```
+
+`husky` + `lint-staged` corren `eslint --fix` + `prettier --write` sobre lo
+staged en cada commit (activo automático vía `npm install` → `npm run
+prepare`). `.github/workflows/ci.yml` corre lint, format check, tests y
+build en cada push/PR a `main`; `.github/dependabot.yml` avisa de
+dependencias desactualizadas (npm, imagen base de Docker, GitHub Actions)
+cada semana.
+
+> `react-hooks/set-state-in-effect` está desactivado a propósito en
+> `eslint.config.js`: es parte del set más nuevo (orientado a React
+> Compiler) de `eslint-plugin-react-hooks`, y marca como error el patrón
+> estándar "fetch on mount" que usa `useFetch.js` — un falso positivo para
+> este caso, no un bug real.
+
 ## Rendimiento
 
 - Code splitting por página (ver arriba) + chunk `vendor` separado.
@@ -157,7 +178,7 @@ tocar nada:
 - **Puerto fijo en 8090** (`vite.config.js`, `server.PORT`/`preview.port`):
   así coincide con `CORS_ORIGIN=http://localhost:8090` que ya tiene
   `plantilla-node/.env` por defecto, sin importar si corres con `npm run
-  dev`, `npm run preview` o Docker.
+dev`, `npm run preview` o Docker.
 - **`server.js`**: reemplaza a `vite preview` para que `npm run preview`
   sirva el build con las mismas cabeceras de seguridad y cache-control que
   `nginx.conf` en Docker (`vite preview` por sí solo no las agrega).
@@ -175,3 +196,8 @@ npm run build && npm run preview   # build de producción + servidor con las mis
 docker compose up -d --build
 # http://localhost:8090
 ```
+
+El `Dockerfile` incluye `HEALTHCHECK` (`wget --spider` contra `/`, cada
+30s) — `docker compose ps` muestra `healthy`/`unhealthy` en vez de solo
+`Up`, útil si esta plantilla queda detrás de un orquestador que reinicia
+contenedores no saludables.

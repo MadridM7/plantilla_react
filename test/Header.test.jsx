@@ -13,7 +13,10 @@ describe("Header", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByRole("link", { name: /acerca de/i })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("link", { name: /acerca de/i })).toHaveAttribute(
+      "aria-current",
+      "page"
+    );
     expect(screen.getByRole("link", { name: /inicio/i })).not.toHaveAttribute("aria-current");
   });
 });

@@ -13,16 +13,14 @@ function BackendStatus() {
   if (error) {
     return (
       <p>
-        No se pudo conectar con el backend ({error.message}). ¿Está
-        levantado <code>plantilla-node</code> en el puerto configurado en{" "}
-        <code>VITE_API_BASE_URL</code>?
+        No se pudo conectar con el backend ({error.message}). ¿Está levantado{" "}
+        <code>plantilla-node</code> en el puerto configurado en <code>VITE_API_BASE_URL</code>?
       </p>
     );
   }
   return (
     <p>
-      Backend OK — status: <strong>{data.status}</strong>, uptime:{" "}
-      {data.uptime.toFixed(1)}s{" "}
+      Backend OK — status: <strong>{data.status}</strong>, uptime: {data.uptime.toFixed(1)}s{" "}
       <button type="button" onClick={refetch}>
         Refrescar
       </button>
@@ -67,9 +65,8 @@ export default function About() {
       <h2>Conexión con plantilla-node</h2>
       <p>
         Esta sección es una demo del patrón de conexión real con la API (ver{" "}
-        <code>src/services/apiClient.js</code>). Si usás plantilla-react de
-        forma standalone (sin plantilla-node), podés borrar este bloque sin
-        afectar el resto del sitio.
+        <code>src/services/apiClient.js</code>). Si usás plantilla-react de forma standalone (sin
+        plantilla-node), podés borrar este bloque sin afectar el resto del sitio.
       </p>
       <BackendStatus />
       <CsrfDemoButton />

@@ -34,6 +34,7 @@ Cualquier código que se agregue a un proyecto nacido de esta plantilla —
 lo escriba una IA o una persona— tiene que regirse por esto:
 
 **Seguridad básica**
+
 - Nunca uses `dangerouslySetInnerHTML` con contenido que venga de un
   usuario o de la API sin sanitizarlo antes (XSS). Si necesitas renderizar
   HTML dinámico, sanitízalo (ej. DOMPurify) antes de inyectarlo.
@@ -47,6 +48,7 @@ lo escriba una IA o una persona— tiene que regirse por esto:
   amplíala solo para el origen/recurso concreto que necesitas.
 
 **Rendimiento máximo**
+
 - Toda página nueva se registra con `lazy()` en `AppRoutes.jsx`, nunca con
   import estático (ver "Regla de oro" abajo).
 - Usa `React.memo`/`useMemo`/`useCallback` en componentes que reciben props
@@ -63,6 +65,7 @@ lo escriba una IA o una persona— tiene que regirse por esto:
   `index.html` en `nginx.conf` (ver sección Performance del README).
 
 **SEO (aplica especialmente a esta plantilla de React)**
+
 - Toda página nueva en `src/pages/*` empieza con
   `<Seo title="..." description="..." path="/ruta" />`
   (`src/components/common/Seo.jsx`, usa `react-helmet-async`). Sin esto la
@@ -79,6 +82,7 @@ lo escriba una IA o una persona— tiene que regirse por esto:
   aquí.
 
 **Accesibilidad**
+
 - `App.jsx` mueve el foco a `<main id="main-content">` y hace scroll al
   tope en cada cambio de ruta (`useLocation` + `useRef`, se salta en el
   primer render). Sin esto, navegar en una SPA no le avisa nada a quien usa
@@ -161,6 +165,17 @@ manejo de errores y el envío del token CSRF (ver abajo) quedan gratis.
   algo que usa `apiClient`, mockeá el módulo (`vi.mock`) en vez de hacer la
   llamada real; la demo de `About.jsx` se sigue probando a mano.
 
+## Calidad de código
+
+`ESLint` (flat config, `eslint.config.js`: `react`, `react-hooks`,
+`jsx-a11y`) + `Prettier`. `npm run lint` / `npm run format` /
+`npm run format:check`. `husky` + `lint-staged` corren `eslint --fix` +
+`prettier --write` sobre lo staged en cada commit.
+`react-hooks/set-state-in-effect` está apagado a propósito — es del set
+orientado a React Compiler y marca como error el patrón "fetch on mount"
+que usa `useFetch.js`, que es correcto. `.github/workflows/ci.yml` corre
+lint + format check + tests + build en cada push/PR a `main`.
+
 ## Cabeceras de seguridad
 
 Definidas en DOS lugares que tienen que decir lo mismo: `nginx.conf` (build
@@ -216,7 +231,10 @@ rechaza).
 
 1. **Copiar la carpeta completa** a la ubicación del proyecto nuevo.
 2. **Renombrar identidad del proyecto**:
-   - `package.json` → campo `"name"`
+   - `package.json` → campos `"name"`, `"author"`, `"repository"` (o
+     borralo si el proyecto nuevo no tiene repo todavía)
+   - `LICENSE` → nombre del titular del copyright, si corresponde a otra
+     persona/organización
    - `docker-compose.yml` → clave del servicio y `container_name`
    - `index.html` → `<title>`, `<meta description>` y el resto de las meta
      etiquetas por defecto

@@ -12,7 +12,9 @@ import "./styles/global.css";
 // promesas sin catch) no los ve un Error Boundary; se capturan aquí para
 // que al menos queden registrados en vez de fallar en silencio.
 window.addEventListener("error", (event) => logger.error("Error global:", event.error));
-window.addEventListener("unhandledrejection", (event) => logger.error("Promesa sin manejar:", event.reason));
+window.addEventListener("unhandledrejection", (event) =>
+  logger.error("Promesa sin manejar:", event.reason)
+);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
