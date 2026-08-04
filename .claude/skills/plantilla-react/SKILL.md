@@ -140,6 +140,27 @@ Al agregar una página o componente nuevo que llama a la API: usa
 `apiClient.get/post` (o el hook `useFetch`), nunca `fetch` directo — así el
 manejo de errores y el envío del token CSRF (ver abajo) quedan gratis.
 
+## Tests
+
+`Vitest` + `Testing Library` con `jsdom` (`test.environment` en
+`vite.config.js`, setup en `test/setup.js`). `npm test` corre la suite,
+`npm run test:watch` la re-corre en cada guardado.
+
+- Al agregar un componente nuevo, agregá su test en
+  `test/<Componente>.test.jsx` siguiendo `test/ErrorBoundary.test.jsx`
+  (fallback + reset) o `test/Header.test.jsx` (nav/routing) según
+  corresponda.
+- Cualquier componente que renderice `<Seo />` necesita `HelmetProvider`
+  envolviéndolo en el test (ver `test/Home.test.jsx`), si no,
+  `react-helmet-async` tira un error de contexto faltante.
+- Cualquier componente con `Link`/`NavLink` necesita un router envolviéndolo
+  — `MemoryRouter` en tests (no `BrowserRouter`, no depende de una URL real
+  del navegador).
+- No agregues tests que dependan de `plantilla-node` corriendo (ej. pegarle
+  de verdad a `/health`) — son lentos y frágiles en CI. Si necesitás probar
+  algo que usa `apiClient`, mockeá el módulo (`vi.mock`) en vez de hacer la
+  llamada real; la demo de `About.jsx` se sigue probando a mano.
+
 ## Cabeceras de seguridad
 
 Definidas en DOS lugares que tienen que decir lo mismo: `nginx.conf` (build

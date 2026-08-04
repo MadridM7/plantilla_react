@@ -266,7 +266,73 @@ que agregues de acá en más sigue esta misma receta.
 
 ---
 
-## 10. Glosario
+## 10. Tests: que el código se pruebe solo
+
+**El problema que resuelve**: hasta acá probamos todo abriendo el
+navegador. Eso está bien mientras programás, pero ¿te vas a acordar de
+volver a clickear cada página, cada botón, cada link del `Header`, cada
+vez que toques algo en tres meses? Un test hace exactamente eso, solo, en
+segundos.
+
+### Cómo está armado acá
+
+[Vitest](https://vitest.dev/) corre los tests, y
+[Testing Library](https://testing-library.com/) simula un DOM (vía
+`jsdom`) para renderizar componentes de React sin necesitar un navegador
+de verdad.
+
+```powershell
+npm test           # corre todos los tests una vez
+npm run test:watch # los re-corre solo cuando guardás un archivo
+```
+
+Ya hay tests de ejemplo en `test/`: `ErrorBoundary.test.jsx` (que el
+fallback aparece si un hijo falla, y que "Reintentar" vuelve a intentar
+renderizar), `Header.test.jsx` (que `NavLink` marca la página activa con
+`aria-current="page"`) y `Home.test.jsx` (que la landing renderiza sin
+llamar a la API). Son la referencia a copiar para lo que agregues vos.
+
+Dos detalles que vas a necesitar tarde o temprano:
+- Un componente con `<Seo />` necesita `HelmetProvider` envolviéndolo en
+  el test, si no `react-helmet-async` tira un error de contexto faltante.
+- Un componente con `Link`/`NavLink` necesita un router envolviéndolo —
+  usá `MemoryRouter` (no `BrowserRouter`: no depende de una URL real).
+
+### Probalo vos mismo: testeá la página que creaste en la sección 9
+
+Creá `test/Contacto.test.jsx`:
+
+```jsx
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { HelmetProvider } from "react-helmet-async";
+import Contacto from "../src/pages/Contacto/Contacto.jsx";
+
+describe("Contacto", () => {
+  it("muestra el email de contacto", () => {
+    render(
+      <HelmetProvider>
+        <Contacto />
+      </HelmetProvider>
+    );
+
+    expect(screen.getByText(/hola@ejemplo.com/)).toBeInTheDocument();
+  });
+});
+```
+
+```powershell
+npm test
+# ✓ test/Contacto.test.jsx (1 test)
+```
+
+Igual que en `plantilla-node`: esto no reemplaza probar a mano mientras
+programás, pero una vez que algo ya anda, el test se asegura de que
+**siga andando** sin que vos tengas que acordarte de volver a probarlo.
+
+---
+
+## 11. Glosario
 
 - **SPA (Single Page Application)**: un sitio que carga una sola vez y
   después cambia el contenido con JavaScript, sin recargar la página
@@ -285,8 +351,12 @@ que agregues de acá en más sigue esta misma receta.
   puede llamar a una API en otro dominio/puerto.
 - **CSRF**: ver el glosario de `plantilla-node` — la protección contra
   este ataque ya está integrada acá.
+- **Test**: código que verifica automáticamente que un componente hace lo
+  que se espera, sin tener que probarlo a mano en el navegador cada vez.
+- **jsdom**: una implementación del DOM que corre en Node, sin navegador
+  real — lo que usan los tests para poder "renderizar" un componente.
 
-## 11. Para seguir
+## 12. Para seguir
 
 - `README.md` — referencia técnica más compacta de todo lo mismo.
 - `.claude/skills/plantilla-react/SKILL.md` — si vas a pedirle a una IA

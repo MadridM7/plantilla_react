@@ -28,4 +28,11 @@ export default defineConfig({
       },
     },
   },
+  test: {
+    // jsdom simula un DOM en Node para poder renderizar componentes sin
+    // navegador real. setupFiles agrega los matchers de jest-dom
+    // (toBeInTheDocument, etc.) a todos los tests sin importarlos c/u.
+    environment: "jsdom",
+    setupFiles: ["./test/setup.js"],
+  },
 });

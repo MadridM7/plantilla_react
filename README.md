@@ -91,6 +91,23 @@ En `plantilla-node/.env`, `CORS_ORIGIN` debe ser el origen exacto de este
 front (`http://localhost:8090` por defecto en el laboratorio) — con
 `credentials: true` en CORS, el navegador rechaza el wildcard `*`.
 
+## Tests
+
+[Vitest](https://vitest.dev/) + [Testing Library](https://testing-library.com/)
+con entorno `jsdom` (configurado en `vite.config.js`, `test.environment`):
+
+```bash
+npm test           # corre la suite una vez
+npm run test:watch # re-corre en cada guardado
+```
+
+`test/` ya cubre `ErrorBoundary` (fallback ante un error de render, y que
+"Reintentar" vuelve a intentar renderizar), `Header` (que `NavLink` marca
+la página activa con `aria-current="page"`) y `Home` (que la landing
+renderiza sin depender de la API) — son la referencia a copiar para
+componentes nuevos. Envolvé en `HelmetProvider` cualquier componente que
+use `<Seo />`, y en `MemoryRouter` cualquiera que use `Link`/`NavLink`.
+
 ## Rendimiento
 
 - Code splitting por página (ver arriba) + chunk `vendor` separado.
