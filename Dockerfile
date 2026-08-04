@@ -1,4 +1,4 @@
-FROM node:24-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 # --no-audit evita una llamada de red (chequeo de vulnerabilidades) que en
