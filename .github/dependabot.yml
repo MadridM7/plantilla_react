@@ -4,10 +4,21 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Solo parches/minor automáticos: un salto major (ej. React 18->19,
+    # Vite 5->8) suele traer cambios incompatibles y necesita revisión y
+    # pruebas manuales, no tiene sentido que Dependabot lo proponga solo.
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "weekly"
+    # Mismo criterio: no saltar de LTS a una versión de Node que ni
+    # siquiera es LTS todavía solo porque existe un tag más nuevo.
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
