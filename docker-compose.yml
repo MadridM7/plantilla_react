@@ -1,0 +1,13 @@
+services:
+  plantilla-react:
+    build: .
+    container_name: plantilla-react
+    restart: unless-stopped
+    ports:
+      - "8090:80"
+    networks:
+      - dockerlab
+
+networks:
+  dockerlab:
+    external: true

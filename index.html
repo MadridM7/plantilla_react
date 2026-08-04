@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Fallback estático para crawlers que no ejecutan JS (o lo hacen con
+      demora). react-helmet-async sobreescribe title/description por
+      página en tiempo de ejecución (ver src/pages/*), pero esta versión
+      SSR-less siempre debe tener un valor por defecto razonable acá.
+    -->
+    <title>plantilla-react</title>
+    <meta name="description" content="Descripción por defecto de plantilla-react. Sobrescríbela por página con react-helmet-async." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://tu-dominio.example/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="plantilla-react" />
+    <meta property="og:description" content="Descripción por defecto de plantilla-react." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#111111" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
