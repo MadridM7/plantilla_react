@@ -29,7 +29,8 @@ lo que un proyecto grande necesita tarde o temprano:
 Necesitás **una** de estas dos cosas (no las dos):
 
 - **Docker Desktop** instalado y corriendo, o
-- **Node.js** instalado en tu PC (versión 20 o superior).
+- **Node.js** instalado en tu PC (versión 24 o superior — la LTS actual;
+  ver `.nvmrc`).
 
 ---
 

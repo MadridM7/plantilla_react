@@ -1,4 +1,4 @@
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 # --no-audit evita una llamada de red (chequeo de vulnerabilidades) que en
@@ -12,5 +12,8 @@ FROM nginx:1.27-alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
-# wget viene con nginx:alpine (busybox); no hace falta instalar curl aparte.
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s CMD wget -q --spider http://localhost/ || exit 1
+# wget viene con nginx:alpine (busybox). 127.0.0.1 explícito, no "localhost":
+# /etc/hosts resuelve localhost también a ::1, y nginx.conf solo escucha en
+# IPv4 ("listen 80;", sin "listen [::]:80;") — con "localhost" wget probaba
+# ::1 primero y el healthcheck fallaba con "Connection refused" siempre.
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s CMD wget -q --spider http://127.0.0.1/ || exit 1
