@@ -121,6 +121,16 @@ hacen con demora) solo ven el HTML estático inicial. Por eso:
   CSR pura tiene un techo — considera migrar a SSR/SSG (Next.js, Remix,
   Astro) o agregar prerendering.
 
+## Accesibilidad
+
+- `App.jsx` mueve el foco a `<main id="main-content">` y hace scroll al tope
+  en cada cambio de ruta — en una SPA el navegador no lo hace solo, y sin
+  esto quien navega con teclado o lector de pantalla no recibe ninguna señal
+  de que la página cambió.
+- `Header.jsx` usa `NavLink` en vez de `Link`: marca la página activa con
+  `aria-current="page"` automáticamente.
+- Favicon en `public/favicon.svg` (referenciado en `index.html`).
+
 ## Correr sin Docker
 
 El proyecto no depende de Docker para nada — copialo a cualquier PC con

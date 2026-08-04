@@ -78,6 +78,21 @@ lo escriba una IA o una persona— tiene que regirse por esto:
   a SSR/SSG (Next.js, Remix, Astro) o agregar prerendering, no forzarlo
   aquí.
 
+**Accesibilidad**
+- `App.jsx` mueve el foco a `<main id="main-content">` y hace scroll al
+  tope en cada cambio de ruta (`useLocation` + `useRef`, se salta en el
+  primer render). Sin esto, navegar en una SPA no le avisa nada a quien usa
+  teclado o lector de pantalla — el foco se queda en el link que acaban de
+  clickear. Si agregás una página nueva no tenés que hacer nada extra, ya
+  está resuelto a nivel de `App.jsx`.
+- Los links de `Header.jsx` usan `NavLink` (no `Link`): marca automáticamente
+  la página activa con `aria-current="page"`, sin código adicional. Usá
+  `NavLink` para cualquier link de navegación principal que agregues.
+- Favicon en `public/favicon.svg`, referenciado desde `index.html` — si lo
+  reemplazás por el logo real del proyecto, mantené un `<link rel="icon">`
+  válido (sin favicon, algunos navegadores repiten requests fallidos a
+  `/favicon.ico` en cada carga).
+
 ## Estructura y qué hace cada pieza
 
 ```
